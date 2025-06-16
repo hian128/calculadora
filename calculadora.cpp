@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-// Struct genérica para operações
+// Struct para as operações
 struct Operacao {
     double num1;
     double num2;
@@ -20,8 +20,8 @@ bool usar_novamente() {
         cout << "Obrigado por usar a calculadora!" << endl;
         return false;
     } else {
-        cout << "Resposta invalida. Por favor, digite 's' para sim ou 'n' para nao." << endl;
-        return usar_novamente();  // recursão
+        cout << "Resposta invalida. Digite 's' para sim ou 'n' para nao." << endl;
+        return usar_novamente();  // chama de novo até ser válido
     }
 }
 
@@ -30,30 +30,44 @@ int main() {
     bool continuar = true;
 
     while (continuar) {
-        cout << "================================" << endl;
-        cout << "CALCULADORA" << endl;
-        cout << "=================================" << endl;
-        cout << "Selecione uma opcao:" << endl;
-        cout << "1. Adicao" << endl;
-        cout << "2. Subtracao" << endl;
-        cout << "3. Multiplicacao" << endl;
-        cout << "4. Divisao" << endl;
-        cout << "5. Sair" << endl;
+        cout << "\n=============================" << endl;
+        cout << "      CALCULADORA SIMPLES    " << endl;
+        cout << "=============================" << endl;
 
-        cin >> opcao;
+        // Menu com validação simples
+        while (true) {
+            cout << "Escolha uma opcao:" << endl;
+            cout << "1. Adicao" << endl;
+            cout << "2. Subtracao" << endl;
+            cout << "3. Multiplicacao" << endl;
+            cout << "4. Divisao" << endl;
+            cout << "5. Sair" << endl;
+            cout << "Digite a opcao: ";
 
-        while (opcao < 1 || opcao > 5) {
-            cout << "Opcao invalida. Digite novamente: ";
             cin >> opcao;
+
+            if (cin.fail()) {
+                cin.clear(); // limpa o erro
+                cin.ignore(1000, '\n'); // descarta o que o usuário digitou
+                cout << "Entrada invalida! Por favor, digite um numero de 1 a 5.\n" << endl;
+                continue;
+            }
+
+            if (opcao >= 1 && opcao <= 5) {
+                break; // opção válida
+            } else {
+                cout << "Opcao invalida! Digite um numero entre 1 e 5.\n" << endl;
+            }
         }
 
+        // Opção de sair
         if (opcao == 5) {
             cout << "Obrigado por usar a calculadora!" << endl;
             break;
         }
 
+        // Operação matemática
         Operacao op;
-
         cout << "Digite o primeiro numero: ";
         cin >> op.num1;
         cout << "Digite o segundo numero: ";
@@ -82,7 +96,8 @@ int main() {
             break;
         }
 
-        continuar = usar_novamente();  // pergunta se quer continuar
+        // Perguntar se deseja continuar
+        continuar = usar_novamente();
     }
 
     return 0;
